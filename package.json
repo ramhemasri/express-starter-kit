@@ -1,0 +1,14 @@
+{
+  "name": "expressjs-starter-kit",
+  "description": "Express Starter Kit.",
+  "author": "You <you@company.com>",
+  "private": true,
+  "dependencies": {
+    "express": ">= 3.1.0",
+    "jade": ">= 0.28.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
+
