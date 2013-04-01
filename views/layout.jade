@@ -7,9 +7,24 @@ html
     title= 'Express Starter Kit'
 
     meta(name='viewport', content='width=device-width')
-    link(rel='stylesheet', href='/stylesheets/style.css', media='screen')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css', media='screen')
+    link(rel='stylesheet', href='/stylesheets/application.css', media='screen')
   body
-    block content 
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand(href='/') Express Starter Kit
+          ul.nav
+            if (typeof(user) == 'undefined')
+              li
+                a(href='/register') Register
+              li
+                a(href='/login') Log In
+            else
+              li
+                a(href='/logout') Log Out
+    .container
+      block content 
   
   script(type='text/javascript', src='/javascript/application.js')
 

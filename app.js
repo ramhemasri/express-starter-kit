@@ -1,7 +1,11 @@
 var express = require('express'),
     http = require('http'),
+    mongoose = require('mongoose'),
     path = require('path'),
-    routes = require(path.join(__dirname, 'app', 'routes'));
+    passport = require('passport'),
+    PassportLocalStrategy = require('passport-local').Strategy,
+    routes = require(path.join(__dirname, 'app', 'routes')),
+    User = require(path.join(__dirname, 'app', 'models', 'user'));
 
 var app = express();
 app.set('env', process.env.NODE_ENV || 'development');
@@ -12,12 +16,21 @@ app.set('view engine', 'jade');
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser('your secret here'));
+app.use(express.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 if('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+passport.use(new PassportLocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use(function(req, res, next) {
   res.status(404);
@@ -37,6 +50,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('500', {error: err});
 });
+
+mongoose.connect('mongodb://127.0.0.1/express-starter-kit');
 
 routes(app);
 
