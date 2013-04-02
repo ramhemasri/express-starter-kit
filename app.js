@@ -18,6 +18,10 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
+app.use(express.cookieSession({
+    cookie: {maxAge: 2592000000},  // Cookie expires in 30 days.
+    key: 'auth_token'
+}));
 app.use(express.session({store: new RedisStore, secret: 'your secret here'}));
 app.use(passport.initialize());
 app.use(passport.session());
