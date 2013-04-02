@@ -4,6 +4,7 @@ var express = require('express'),
     path = require('path'),
     passport = require('passport'),
     PassportLocalStrategy = require('passport-local').Strategy,
+    RedisStore = require('connect-redis')(express),
     routes = require(path.join(__dirname, 'app', 'routes')),
     User = require(path.join(__dirname, 'app', 'models', 'user'));
 
@@ -17,7 +18,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(express.session({store: new RedisStore, secret: 'your secret here'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
