@@ -4,7 +4,10 @@ var passport = require('passport'),
 
 module.exports = function(app) {
   app.get('/', function(req, res) {
-    res.render('index', {user: req.user});
+    res.render('index', {
+      title : 'ESK',
+      user: req.user
+    });
   });
 
   app.get('/403', function(req, res, next) {
@@ -22,7 +25,9 @@ module.exports = function(app) {
   });
 
   app.get('/register', function(req, res) {
-    res.render('register', {});
+    res.render('register', {
+      title : 'ESK | Register'
+    });
   });
 
   app.post('/register', function(req, res) {
@@ -35,7 +40,10 @@ module.exports = function(app) {
   });
 
   app.get('/login', function(req, res) {
-    res.render('login', {user: req.user});
+    res.render('login', {
+      title : 'ESK | Login',
+      user: req.user
+    });
   });
 
   app.post('/login', passport.authenticate('local'), function(req, res) {
@@ -46,5 +54,4 @@ module.exports = function(app) {
     req.logout();
     res.redirect('/');
   });
-}
-
+};
